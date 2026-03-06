@@ -45,19 +45,31 @@ export function attachPollSocket(httpServer: HttpServer, corsOrigin: string) {
     });
 
     socket.on("createPoll", async (body: { question: string; options: string[]; durationSeconds: number }) => {
-      const { question, options, durationSeconds } = body ?? {};
-      if (!question || !Array.isArray(options) || options.length < 2) {
-        socket.emit("createPoll:error", { message: "Invalid question or options" });
-        return;
-      }
-      const poll = await PollService.createPoll(question, options, durationSeconds ?? 30);
-      if (!poll) {
-        socket.emit("createPoll:error", { message: "Failed to create poll" });
-        return;
-      }
-      const started = await PollService.startPoll(poll.id);
-      if (started) {
-        io.emit("pollStarted", { poll: started, remainingSeconds: started.durationSeconds });
+      try {
+        if (!teacherSockets.has(socket.id)) {
+          socket.emit("createPoll:error", { message: "Only teachers can create polls. Rejoin as teacher." });
+          return;
+        }
+        const { question, options, durationSeconds } = body ?? {};
+        if (!question || !Array.isArray(options) || options.length < 2) {
+          socket.emit("createPoll:error", { message: "Invalid question or options" });
+          return;
+        }
+        const poll = await PollService.createPoll(question, options, durationSeconds ?? 30);
+        if (!poll) {
+          socket.emit("createPoll:error", { message: "Failed to create poll" });
+          return;
+        }
+        const started = await PollService.startPoll(poll.id);
+        if (started) {
+          io.emit("pollStarted", { poll: started, remainingSeconds: started.durationSeconds });
+        } else {
+          socket.emit("createPoll:error", { message: "Failed to start poll" });
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to create poll";
+        console.error("createPoll error:", err);
+        socket.emit("createPoll:error", { message });
       }
     });
 

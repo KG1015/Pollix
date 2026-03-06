@@ -167,6 +167,7 @@ export default function App() {
     }
     if (role === "teacher") {
       setScreen("create");
+      if (socket?.connected) socket.emit("join:teacher");
     } else {
       setScreen("name");
     }
