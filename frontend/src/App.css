@@ -1,0 +1,257 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: #F9F9F9;
+  color: #272727;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+/* Chunky rounded display font (SPICY-style) for brand and headings */
+.font-display {
+  font-family: "Fredoka", "Nunito", sans-serif !important;
+}
+
+.brand {
+  margin-bottom: 2rem;
+}
+.brand h1 {
+  font-family: "Fredoka", "Nunito", sans-serif !important;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #272727;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.06);
+}
+.brand p {
+  font-family: "Fredoka", "Nunito", sans-serif !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #6E6E6E;
+  margin: 0.35rem 0 0 0;
+}
+
+h2, h3 {
+  font-family: "Fredoka", "Nunito", sans-serif !important;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+}
+
+.card strong {
+  font-family: "Fredoka", "Nunito", sans-serif !important;
+  font-weight: 600;
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 480px;
+  margin: 0 auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.btn {
+  font-family: "Fredoka", "Nunito", sans-serif !important;
+  background: #4F3DCE;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn.secondary {
+  background: transparent;
+  color: #4F3DCE;
+  border: 1px solid #4F3DCE;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #272727;
+  margin-bottom: 1rem;
+}
+.input::placeholder {
+  color: #6E6E6E;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  color: #6E6E6E;
+  margin-bottom: 0.5rem;
+}
+
+.role-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.role-card {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border: 2px solid #E0E0E0;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #FFFFFF;
+  min-height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.role-card strong {
+  display: block;
+  color: #272727;
+  font-size: 1rem;
+}
+.role-card p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.8rem;
+  color: #6E6E6E;
+  font-weight: 400;
+}
+.role-card:hover {
+  border-color: #C0C0C0;
+}
+.role-card--selected {
+  border-color: #4F3DCE;
+  background: rgba(79, 61, 206, 0.05);
+}
+
+.radioGroup {
+  margin: 1rem 0;
+}
+.radioRow {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+.radioRow:hover,
+.radioRow.selected {
+  border-color: #4F3DCE;
+  background: rgba(79, 61, 206, 0.05);
+}
+.radioRow input {
+  margin-right: 0.75rem;
+  accent-color: #4F3DCE;
+}
+
+.progressBar {
+  height: 8px;
+  background: #E8E8E8;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+.progressBar fill {
+  height: 100%;
+  background: #4F3DCE;
+  border-radius: 4px;
+  transition: width 0.2s;
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+  color: #272727;
+  font-weight: 600;
+}
+
+.waitMessage {
+  text-align: center;
+  color: #6E6E6E;
+  margin-top: 1rem;
+}
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #E8E8E8;
+  border-top-color: #4F3DCE;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 1rem;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  box-shadow: -2px 0 12px rgba(0,0,0,0.08);
+  padding: 1rem;
+  z-index: 100;
+}
+.popup h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #272727;
+}
+.popup .close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #6E6E6E;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #272727;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  z-index: 200;
+  animation: fadeIn 0.2s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
