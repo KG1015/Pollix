@@ -2,3 +2,6 @@ node_modules/
 .env
 *.log
 dist/
+
+# Local-only doc (do not push to GitHub)
+ARCHITECTURE-AND-FLOWS.md

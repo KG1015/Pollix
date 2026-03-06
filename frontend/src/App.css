@@ -118,10 +118,18 @@ h2, h3 {
   flex-direction: column;
   gap: 0.75rem;
 }
+.role-cards--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.role-cards--horizontal .role-card {
+  flex: 1;
+  min-width: 180px;
+}
 .role-card {
   padding: 1rem 1.25rem;
   text-align: left;
-  border: 2px solid #E0E0E0;
+  border: 2px solid #A8C0E8;
   border-radius: 12px;
   cursor: pointer;
   background: #FFFFFF;
@@ -143,11 +151,196 @@ h2, h3 {
   font-weight: 400;
 }
 .role-card:hover {
-  border-color: #C0C0C0;
+  border-color: #7BA3E0;
 }
 .role-card--selected {
   border-color: #4F3DCE;
   background: rgba(79, 61, 206, 0.05);
+}
+.btn--gradient {
+  background: linear-gradient(90deg, #3d2fa8 0%, #5a4ad4 50%, #6B5DD4 100%);
+  border: none;
+}
+.btn--gradient:hover:not(:disabled) {
+  background: linear-gradient(90deg, #352a96 0%, #4F3DCE 50%, #5d4fc9 100%);
+}
+
+.question-box {
+  background: #373737;
+  color: #fff;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #F3F3F3;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.option-row .option-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #4F3DCE;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.option-row .option-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(79, 61, 206, 0.2);
+  border-radius: 12px;
+  z-index: 0;
+}
+.option-row .option-text {
+  position: relative;
+  z-index: 1;
+  color: #272727;
+}
+.pill-badge {
+  display: inline-block;
+  background: #4F3DCE;
+  color: #fff;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.badge-gradient {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(90deg, #6B5DD4 0%, #4F3DCE 100%);
+  color: #fff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+.timer--danger {
+  color: #c53030;
+  font-weight: 600;
+}
+.input--light {
+  background: #F3F3F3;
+  border-color: #E5E5E5;
+}
+.option-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.option-choice-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #F3F3F3;
+  border: 1px solid #E8E8E8;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.option-choice-row:hover {
+  background: #EBEBEB;
+}
+.option-choice-row.selected {
+  background: #fff;
+  border-color: #4F3DCE;
+  border-width: 2px;
+}
+.option-num-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: #fff;
+}
+.option-num-circle.selected {
+  background: #4F3DCE;
+}
+.option-num-circle:not(.selected) {
+  background: #9E9E9E;
+}
+.btn--gradient-shadow {
+  box-shadow: 0 2px 8px rgba(79, 61, 206, 0.35);
+}
+.add-more-option {
+  background: rgba(79, 61, 206, 0.12);
+  color: #4F3DCE;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-bottom: 0.5rem;
+}
+.add-more-option:hover {
+  background: rgba(79, 61, 206, 0.2);
+}
+.question-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.question-row .label { margin-bottom: 0; }
+.char-count {
+  font-size: 0.75rem;
+  color: #9E9E9E;
+  text-align: right;
+  margin-top: 0.25rem;
+}
+.edit-options-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0 0.5rem;
+}
+.edit-options-header .label { margin: 0; }
+.is-correct-label {
+  font-size: 0.75rem;
+  color: #6E6E6E;
+  margin-right: 0.5rem;
+}
+.question-box--gradient {
+  background: linear-gradient(180deg, #454545 0%, #373737 100%);
+  color: #fff;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
 .radioGroup {

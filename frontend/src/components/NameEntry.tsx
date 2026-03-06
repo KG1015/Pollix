@@ -1,25 +1,27 @@
 import React, { useState } from "react";
-import { Brand } from "./Brand.js";
 
 export function NameEntry({ onSubmit }: { onSubmit: (name: string) => void }) {
   const [name, setName] = useState("");
 
   return (
-    <div className="card">
-      <Brand />
-      <h2 style={{ margin: "0 0 0.5rem", fontSize: "1.25rem", color: "#272727" }}>Let's get started</h2>
-      <p style={{ margin: "0 0 1rem", fontSize: "0.875rem", color: "#6E6E6E" }}>
-        Enter your name to join and take part in live polls.
+    <div className="card" style={{ textAlign: "center" }}>
+      <span className="badge-gradient">⚡ POLLIX</span>
+      <h2 style={{ margin: "0 0 0.5rem", fontSize: "1.35rem", color: "#272727" }}>Let's Get Started</h2>
+      <p style={{ margin: "0 0 1.25rem", fontSize: "0.875rem", color: "#6E6E6E", maxWidth: "380px", marginLeft: "auto", marginRight: "auto" }}>
+        If you're a student, you'll be able to <strong>submit your answers</strong>, participate in live polls, and see how your responses compare with your classmates.
       </p>
-      <label className="label">Enter your name</label>
-      <input
-        className="input"
-        type="text"
-        placeholder="e.g. Rahul Bajaj"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button type="button" className="btn" onClick={() => name.trim() && onSubmit(name.trim())} disabled={!name.trim()}>
+      <div style={{ textAlign: "left", maxWidth: "320px", margin: "0 auto 1.25rem" }}>
+        <label className="label">Enter your Name</label>
+        <input
+          className="input input--light"
+          type="text"
+          placeholder="Rahul Bajaj"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ borderRadius: 10 }}
+        />
+      </div>
+      <button type="button" className="btn btn--gradient" style={{ borderRadius: 14, padding: "0.85rem 2rem" }} onClick={() => name.trim() && onSubmit(name.trim())} disabled={!name.trim()}>
         Continue
       </button>
     </div>

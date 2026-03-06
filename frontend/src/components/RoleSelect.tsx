@@ -14,21 +14,21 @@ export function RoleSelect({
 }) {
   return (
     <div className="card">
-      <Brand />
+      <span className="pill-badge" style={{ marginBottom: "0.75rem" }}>Live Poll</span>
       <h2 style={{ margin: "0 0 0.5rem", fontSize: "1.25rem", color: "#272727" }}>
-        Welcome to the live polling system
+        Welcome to the Live Polling System
       </h2>
       <p style={{ margin: "0 0 1.5rem", fontSize: "0.875rem", color: "#6E6E6E" }}>
-        Choose your role so we can tailor your experience.
+        Please select the role that best describes you to begin using the live polling system.
       </p>
-      <div className="role-cards">
+      <div className="role-cards role-cards--horizontal">
         <button
           type="button"
           className={`role-card ${role === "student" ? "role-card--selected" : ""}`}
           onClick={() => onRoleChange("student")}
         >
           <strong>I'm a Student</strong>
-          <p>Answer questions and view poll results.</p>
+          <p>Submit answers and view live poll results in real-time.</p>
         </button>
         <button
           type="button"
@@ -36,10 +36,15 @@ export function RoleSelect({
           onClick={() => onRoleChange("teacher")}
         >
           <strong>I'm a Teacher</strong>
-          <p>Create polls and monitor responses in real time.</p>
+          <p>Create polls and monitor your students' responses in real time.</p>
         </button>
       </div>
-      <button type="button" className="btn" style={{ marginTop: "1.5rem" }} onClick={onContinue} disabled={!role}>
+      <button
+        type="button"
+        className="btn btn--gradient"
+        style={{ marginTop: "1.5rem", position: "relative", zIndex: 1 }}
+        onClick={() => onContinue()}
+      >
         Continue
       </button>
     </div>

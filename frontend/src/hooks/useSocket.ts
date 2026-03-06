@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import { API_BASE } from "../config.js";
 
-const socketUrl = typeof window !== "undefined" ? window.location.origin : "";
+const socketUrl = API_BASE || (typeof window !== "undefined" ? window.location.origin : "");
 
 export function useSocket() {
   const [socket, setSocket] = useState<Socket | null>(null);

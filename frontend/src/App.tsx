@@ -12,6 +12,7 @@ import { PollHistory } from "./components/PollHistory.js";
 import { KickedOut } from "./components/KickedOut.js";
 import { Chat } from "./components/Chat.js";
 import { Participants } from "./components/Participants.js";
+import { API_BASE } from "./config.js";
 import "./App.css";
 
 type Role = "student" | "teacher" | null;
@@ -48,7 +49,7 @@ export default function App() {
     let cancelled = false;
     (async () => {
       try {
-        const r = await fetch("/api/state");
+        const r = await fetch(`${API_BASE}/api/state`);
         const data = await r.json();
         if (cancelled) return;
         if (data.poll) setPoll(data.poll);
@@ -63,7 +64,7 @@ export default function App() {
   // Fetch history when opening history screen
   useEffect(() => {
     if (screen !== "history") return;
-    fetch("/api/history")
+    fetch(`${API_BASE}/api/history`)
       .then((r) => r.json())
       .then(setHistory)
       .catch(() => setHistory([]));
@@ -160,6 +161,10 @@ export default function App() {
   }, [socket, connected, role, poll?.id]);
 
   const handleRoleContinue = () => {
+    if (!role) {
+      showToast("Please select Student or Teacher first.");
+      return;
+    }
     if (role === "teacher") {
       setScreen("create");
     } else {
