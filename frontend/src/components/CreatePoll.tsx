@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const DURATIONS = [15, 30, 45, 60];
 
-export function CreatePoll({ onSubmit }: { onSubmit: (question: string, options: string[], durationSeconds: number) => void }) {
+export function CreatePoll({ onSubmit, pending = false }: { onSubmit: (question: string, options: string[], durationSeconds: number) => void; pending?: boolean }) {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [durationSeconds, setDurationSeconds] = useState(30);
@@ -21,7 +21,7 @@ export function CreatePoll({ onSubmit }: { onSubmit: (question: string, options:
 
   const valid = question.trim() && options.every((o) => o.trim().length > 0);
   const handleSubmit = () => {
-    if (!valid) return;
+    if (!valid || pending) return;
     onSubmit(question.trim(), options.map((o) => o.trim()).filter(Boolean), durationSeconds);
   };
 
@@ -94,8 +94,8 @@ export function CreatePoll({ onSubmit }: { onSubmit: (question: string, options:
         </button>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1.25rem" }}>
-        <button type="button" className="btn btn--gradient btn--gradient-shadow" onClick={handleSubmit} disabled={!valid} style={{ width: "auto" }}>
-          Ask Question
+        <button type="button" className="btn btn--gradient btn--gradient-shadow" onClick={handleSubmit} disabled={!valid || pending} style={{ width: "auto" }}>
+          {pending ? "Creating…" : "Ask Question"}
         </button>
       </div>
     </div>

@@ -99,6 +99,7 @@ After this, the browser will allow your frontend to call the backend and Socket.
    - **Backend:** Check Render **Logs** for errors.
    - **Frontend:** Check browser **Developer Tools** → **Console** and **Network** for errors or blocked requests.
    - **CORS:** If you see CORS errors, double-check `CORS_ORIGIN` on Render matches the frontend URL exactly (same scheme and no trailing slash).
+   - **Poll not showing after "Ask Question":** Ensure **Vercel** has `VITE_API_URL` set to your **backend URL** (Render) and **redeploy** the frontend so the build picks it up. If it’s missing, the app will connect to the wrong host and polls won’t start. Also check Render logs for `createPoll error:` when the teacher clicks Ask Question.
 
 ---
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useSocket } from "./hooks/useSocket.js";
 import { usePollTimer } from "./hooks/usePollTimer.js";
 import { Brand } from "./components/Brand.js";
@@ -36,6 +36,9 @@ export default function App() {
   const [showParticipants, setShowParticipants] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [toast, setToast] = useState<string | null>(null);
+  const [createPollPending, setCreatePollPending] = useState(false);
+  const pendingCreateRef = useRef(false);
+  const createPollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const timerSeconds = usePollTimer(remainingSeconds, poll?.status === "live");
 
@@ -81,6 +84,15 @@ export default function App() {
       setPoll(data.poll);
       setRemainingSeconds(data.remainingSeconds);
       setVotedPollId(null);
+      if (pendingCreateRef.current) {
+        pendingCreateRef.current = false;
+        if (createPollTimeoutRef.current) {
+          clearTimeout(createPollTimeoutRef.current);
+          createPollTimeoutRef.current = null;
+        }
+        setCreatePollPending(false);
+        setScreen("teacher");
+      }
     };
     const onPollUpdate = (p: PollState) => {
       setPoll(p);
@@ -108,6 +120,12 @@ export default function App() {
       });
     };
     const onCreatePollError = (data: { message?: string }) => {
+      if (createPollTimeoutRef.current) {
+        clearTimeout(createPollTimeoutRef.current);
+        createPollTimeoutRef.current = null;
+      }
+      pendingCreateRef.current = false;
+      setCreatePollPending(false);
       showToast(data.message ?? "Failed to create poll");
     };
     const onParticipants = (data: { list: string[] }) => {
@@ -184,8 +202,17 @@ export default function App() {
       showToast("Not connected");
       return;
     }
+    if (createPollPending) return;
+    setCreatePollPending(true);
+    pendingCreateRef.current = true;
     socket.emit("createPoll", { question, options, durationSeconds });
-    setScreen("teacher");
+    createPollTimeoutRef.current = setTimeout(() => {
+      if (pendingCreateRef.current) {
+        pendingCreateRef.current = false;
+        setCreatePollPending(false);
+        showToast("Poll didn't start. Check connection and backend URL (VITE_API_URL).");
+      }
+    }, 12000);
   };
 
   const handleTeacherView = () => {
@@ -262,7 +289,7 @@ export default function App() {
   if (screen === "create") {
     return (
       <div className="app">
-        <CreatePoll onSubmit={handleCreatePoll} />
+        <CreatePoll onSubmit={handleCreatePoll} pending={createPollPending} />
         <button type="button" className="btn secondary" style={{ marginTop: "1rem", maxWidth: 480, marginLeft: "auto", marginRight: "auto", display: "block" }} onClick={handleTeacherView}>
           Back to live poll
         </button>
