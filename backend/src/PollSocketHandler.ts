@@ -55,12 +55,20 @@ export function attachPollSocket(httpServer: HttpServer, corsOrigin: string) {
           socket.emit("createPoll:error", { message: "Invalid question or options" });
           return;
         }
-        const poll = await PollService.createPoll(question, options, durationSeconds ?? 30);
+        const timeoutMs = 10000;
+        const rejectAfter = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Database timeout. Backend may be cold-starting.")), timeoutMs)
+        );
+        const poll = await Promise.race([
+          PollService.createPoll(question, options, durationSeconds ?? 30),
+          rejectAfter,
+        ]);
         if (!poll) {
           socket.emit("createPoll:error", { message: "Failed to create poll" });
           return;
         }
-        const started = await PollService.startPoll(poll.id);
+        const resolveNullAfter = new Promise<null>((resolve) => setTimeout(() => resolve(null), timeoutMs));
+        const started = await Promise.race([PollService.startPoll(poll.id), resolveNullAfter]);
         if (started) {
           io.emit("pollStarted", { poll: started, remainingSeconds: started.durationSeconds });
         } else {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const DURATIONS = [15, 30, 45, 60];
 
-export function CreatePoll({ onSubmit, pending = false }: { onSubmit: (question: string, options: string[], durationSeconds: number) => void; pending?: boolean }) {
+export function CreatePoll({ onSubmit, pending = false, connected = false }: { onSubmit: (question: string, options: string[], durationSeconds: number) => void; pending?: boolean; connected?: boolean }) {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [durationSeconds, setDurationSeconds] = useState(30);
@@ -21,13 +21,17 @@ export function CreatePoll({ onSubmit, pending = false }: { onSubmit: (question:
 
   const valid = question.trim() && options.every((o) => o.trim().length > 0);
   const handleSubmit = () => {
-    if (!valid || pending) return;
+    if (!valid || pending || !connected) return;
     onSubmit(question.trim(), options.map((o) => o.trim()).filter(Boolean), durationSeconds);
   };
 
   return (
     <div className="card">
       <span className="badge-gradient">★ POLLIX</span>
+      <p style={{ margin: "0 0 0.5rem", fontSize: "0.8rem", display: "flex", alignItems: "center", gap: "0.35rem" }}>
+        <span style={{ width: 8, height: 8, borderRadius: "50%", background: connected ? "#22c55e" : "#ef4444" }} />
+        {connected ? "Connected to server" : "Not connected — set VITE_API_URL and redeploy"}
+      </p>
       <h2 style={{ margin: "0 0 0.5rem", fontSize: "1.25rem", color: "#272727" }}>Let's Get Started</h2>
       <p style={{ margin: "0 0 1rem", fontSize: "0.875rem", color: "#6E6E6E" }}>
         You'll have the ability to create and manage polls, ask questions, and monitor your students' responses in real-time.
@@ -94,7 +98,7 @@ export function CreatePoll({ onSubmit, pending = false }: { onSubmit: (question:
         </button>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1.25rem" }}>
-        <button type="button" className="btn btn--gradient btn--gradient-shadow" onClick={handleSubmit} disabled={!valid || pending} style={{ width: "auto" }}>
+        <button type="button" className="btn btn--gradient btn--gradient-shadow" onClick={handleSubmit} disabled={!valid || pending || !connected} style={{ width: "auto" }}>
           {pending ? "Creating…" : "Ask Question"}
         </button>
       </div>

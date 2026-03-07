@@ -198,8 +198,8 @@ export default function App() {
   };
 
   const handleCreatePoll = (question: string, options: string[], durationSeconds: number) => {
-    if (!socket) {
-      showToast("Not connected");
+    if (!socket || !connected) {
+      showToast("Not connected to server. Set VITE_API_URL to your backend URL and redeploy.");
       return;
     }
     if (createPollPending) return;
@@ -210,9 +210,9 @@ export default function App() {
       if (pendingCreateRef.current) {
         pendingCreateRef.current = false;
         setCreatePollPending(false);
-        showToast("Poll didn't start. Check connection and backend URL (VITE_API_URL).");
+        showToast("Server didn’t respond. Check VITE_API_URL and Render backend logs.");
       }
-    }, 12000);
+    }, 8000);
   };
 
   const handleTeacherView = () => {
@@ -289,7 +289,7 @@ export default function App() {
   if (screen === "create") {
     return (
       <div className="app">
-        <CreatePoll onSubmit={handleCreatePoll} pending={createPollPending} />
+        <CreatePoll onSubmit={handleCreatePoll} pending={createPollPending} connected={connected} />
         <button type="button" className="btn secondary" style={{ marginTop: "1rem", maxWidth: 480, marginLeft: "auto", marginRight: "auto", display: "block" }} onClick={handleTeacherView}>
           Back to live poll
         </button>
